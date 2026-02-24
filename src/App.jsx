@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import HeaderMain from './components/HeaderMain'
 import HomePage from './pages/HomePage';
+import { MainLayout } from './components/MainLayout';
 
 const filmsIndex = 'http://localhost:3000/movies'
 
@@ -25,12 +26,11 @@ function App() {
 
   return (
     <>
-      <HeaderMain />
-
       <Routes>
-        <Route index element={<HomePage films={films} />} />
-        <Route path="movies/:id" element={<FilmsDetails/>} />
-
+        <Route path='/' element={<MainLayout/>}>
+          <Route index element={<HomePage films={films} />} />
+          <Route path="movies/:id" element={<FilmsDetails/>} />
+        </Route>
       </Routes>
     </>
   )
