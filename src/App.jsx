@@ -13,7 +13,6 @@ function App() {
 
   const [films, setFilms] = useState([])
 
-
   useEffect(() => {
     axios.get(filmsIndex)
       .then(res => {
@@ -30,7 +29,7 @@ function App() {
 
       <Routes>
         <Route index element={<HomePage films={films} />} />
-        <Route path="movies/:id" element={<FilmsDetails films={films} />} />
+        <Route path="movies/:id" element={<FilmsDetails/>} />
 
       </Routes>
     </>
