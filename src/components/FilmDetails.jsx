@@ -1,26 +1,34 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import ReviewsComp from './ReviewsComp';
 
-const filmsShow = 'http://localhost:3000/movies/'
 
 export default function FilmDetails() {
     const [filmDetails, setFilmDetails] = useState({ reviews: [] })
-    const {id} = useParams();
+
+    const { id } = useParams();
+
+    const filmShow = `http://localhost:3000/movies/${id}`
+
+    const fetchFilmDetails = () =>{
+        axios.get(filmShow)
+            .then((res) => {
+                setFilmDetails(res.data)
+            })
+            .catch((err) => {
+                console.log("error", err.message)
+            })
+
+    }
 
     useEffect(() => {
-        axios.get(`${filmsShow}${id}`)
-        .then((res) => {
-            setFilmDetails(res.data)
-        })
-        .catch((err) => {
-            console.log("error", err.message )
-        })
+        fetchFilmDetails();
     }, [])
 
     // const film = films.find(f => f.id === Number(id))
-    if(!filmDetails) return <p>film not found</p>
-    
+    if (!filmDetails) return <p>film not found</p>
+
     return (
         <main>
             <div>
@@ -41,6 +49,7 @@ export default function FilmDetails() {
                     </div>
                 ))}
             </div>
+            <ReviewsComp fetchFilmDetails={fetchFilmDetails} />
         </main>
     )
 }
